@@ -23,6 +23,8 @@ requirements:
   host:
     - python
     - pip
+    - setuptools
+    - wheel
   run:
     - python
 
@@ -43,8 +45,10 @@ test:
     - nuitka.tools
     - nuitka.tree
     - nuitka.utils
-
+  requires:
+    - pip
   commands:
+    - pip check
     - nuitka --help
 
 about:
