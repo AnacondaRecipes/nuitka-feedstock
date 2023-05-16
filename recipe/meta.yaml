@@ -1,20 +1,17 @@
 {% set name = "Nuitka" %}
 {% set version = "1.5.7" %}
-{% set sha256 = "aa9cd2a34d64abb929e69aca4ec2018bad562c950fcac0fad2d28b61a4d522e4" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  sha256: aa9cd2a34d64abb929e69aca4ec2018bad562c950fcac0fad2d28b61a4d522e4
 
 build:
-  noarch: python
-  number: 1
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  number: 0
+  script: {{ PYTHON }} -m pip install . --no-deps --no-deps --no-build-isolation -vv
   entry_points:
     - nuitka = nuitka.__main__:main
     - nuitka-run = nuitka.__main__:main
@@ -22,18 +19,19 @@ build:
 requirements:
   host:
     - python
+    - libpython-static  # [not win]
     - pip
     - setuptools
     - wheel
   run:
     - python
+    - libpython-static  # [not win]
+    - zstandard >=0.15
 
 test:
   imports:
     - nuitka
     - nuitka.build
-    - nuitka.codegen
-    - nuitka.codegen.templates
     - nuitka.containers
     - nuitka.finalizations
     - nuitka.freezer
@@ -45,14 +43,18 @@ test:
     - nuitka.tools
     - nuitka.tree
     - nuitka.utils
-  requires:
-    - pip
+  #requires:
+  #  - pip
   commands:
-    - pip check
+    # Disable pip check because f missing ordered-set >=4.1.0 but it's needed only for speed up nuitka
+    # see https://github.com/Nuitka/Nuitka/blob/166b88af606e9163bf35f2d31a29af1a4026b5b9/nuitka/Options.py#L900-L902
+    #- pip check
     - nuitka --help
+    - touch Empty.py
+    - nuitka --show-scons --run Empty.py
 
 about:
-  home: http://nuitka.net
+  home: https://nuitka.net
   license: Apache-2.0
   license_family: Apache
   license_file: LICENSE.txt
@@ -71,8 +73,8 @@ about:
     where not every bug of standard Python is emulated, e.g. more complete
     error messages are given, but there is a full compatibility mode to
     disable even that.
-  doc_url: http://nuitka.net/pages/documentation.html
-  dev_url: https://github.com/kayhayen/Nuitka
+  doc_url: https://nuitka.net
+  dev_url: https://github.com/Nuitka/Nuitka
 
 extra:
   recipe-maintainers:
