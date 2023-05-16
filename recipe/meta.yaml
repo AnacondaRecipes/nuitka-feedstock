@@ -43,8 +43,9 @@ test:
     - nuitka.tools
     - nuitka.tree
     - nuitka.utils
-  #requires:
+  requires:
   #  - pip
+    - {{ compiler('c') }}
   commands:
     # Disable pip check because f missing ordered-set >=4.1.0 but it's needed only for speed up nuitka
     # see https://github.com/Nuitka/Nuitka/blob/166b88af606e9163bf35f2d31a29af1a4026b5b9/nuitka/Options.py#L900-L902
