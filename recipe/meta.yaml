@@ -50,9 +50,9 @@ test:
     - nuitka --help
     - nuitka-run --help
     - python -m nuitka --version
-    # Disable test compilation because of the frozen prompt
-    #- touch Empty.py
-    #- nuitka --show-scons --run Empty.py
+    - touch Empty.py
+    # Disable ccache in the test compilation because of the frozen prompt
+    - nuitka --show-scons --run --verbose --disable-ccache Empty.py
 
 about:
   home: https://nuitka.net
