@@ -19,7 +19,6 @@ build:
 requirements:
   host:
     - python
-    - libpython-static  # [not win]
     - pip
     - setuptools
     - wheel
@@ -46,12 +45,14 @@ test:
     - nuitka.utils
   requires:
     - pip
-    - {{ compiler('c') }}  # [linux]
   commands:
     - pip check
     - nuitka --help
     - nuitka-run --help
     - python -m nuitka --version
+    # Disable test compilation because of the frozen prompt
+    #- touch Empty.py
+    #- nuitka --show-scons --run Empty.py
 
 about:
   home: https://nuitka.net
