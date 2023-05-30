@@ -1,20 +1,17 @@
 {% set name = "Nuitka" %}
-{% set version = "0.6.16" %}
-{% set sha256 = "f194af0eecacda5b44c7bd26a29ddf3a9165dfda02731466ce17ed1ebd151b8b" %}
+{% set version = "1.5.8" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  sha256: 729806f45d8a7cf45a843a92752f392e6a821653ba72d46505b6c154be0d3853
 
 build:
-  noarch: python
-  number: 1
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  number: 0
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   entry_points:
     - nuitka = nuitka.__main__:main
     - nuitka-run = nuitka.__main__:main
@@ -27,13 +24,14 @@ requirements:
     - wheel
   run:
     - python
+    - libpython-static  # [not win]
+    - ordered-set >=4.1.0
+    - zstandard >=0.15
 
 test:
   imports:
     - nuitka
     - nuitka.build
-    - nuitka.codegen
-    - nuitka.codegen.templates
     - nuitka.containers
     - nuitka.finalizations
     - nuitka.freezer
@@ -47,12 +45,18 @@ test:
     - nuitka.utils
   requires:
     - pip
+    - {{ compiler('c') }}  # [linux]
   commands:
     - pip check
     - nuitka --help
+    - nuitka-run --help
+    - python -m nuitka --version
+    - touch Empty.py
+    # Disable ccache in the test compilation because of the frozen prompt
+    - nuitka --show-scons --run --verbose --disable-ccache Empty.py
 
 about:
-  home: http://nuitka.net
+  home: https://nuitka.net
   license: Apache-2.0
   license_family: Apache
   license_file: LICENSE.txt
@@ -71,8 +75,8 @@ about:
     where not every bug of standard Python is emulated, e.g. more complete
     error messages are given, but there is a full compatibility mode to
     disable even that.
-  doc_url: http://nuitka.net/pages/documentation.html
-  dev_url: https://github.com/kayhayen/Nuitka
+  doc_url: https://nuitka.net/doc/user-manual.html
+  dev_url: https://github.com/Nuitka/Nuitka
 
 extra:
   recipe-maintainers:
