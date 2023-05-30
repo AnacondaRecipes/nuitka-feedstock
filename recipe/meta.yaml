@@ -45,6 +45,7 @@ test:
     - nuitka.utils
   requires:
     - pip
+    - {{ compiler('c') }}  # [linux]
   commands:
     - pip check
     - nuitka --help
