@@ -1,5 +1,5 @@
 {% set name = "Nuitka" %}
-{% set version = "1.5.7" %}
+{% set version = "1.5.8" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: aa9cd2a34d64abb929e69aca4ec2018bad562c950fcac0fad2d28b61a4d522e4
+  sha256: 729806f45d8a7cf45a843a92752f392e6a821653ba72d46505b6c154be0d3853
 
 build:
   number: 0
@@ -26,6 +26,7 @@ requirements:
   run:
     - python
     - libpython-static  # [not win]
+    - ordered-set >=4.1.0
     - zstandard >=0.15
 
 test:
@@ -44,15 +45,16 @@ test:
     - nuitka.tree
     - nuitka.utils
   requires:
-  #  - pip
+    - pip
     - {{ compiler('c') }}  # [linux]
   commands:
-    # Disable pip check because f missing ordered-set >=4.1.0 but it's needed only for speed up nuitka
-    # see https://github.com/Nuitka/Nuitka/blob/166b88af606e9163bf35f2d31a29af1a4026b5b9/nuitka/Options.py#L900-L902
-    #- pip check
+    - pip check
     - nuitka --help
-    - touch Empty.py
-    - nuitka --show-scons --run Empty.py
+    - nuitka-run --help
+    - python -m nuitka --version
+    # Disable test compilation because of the frozen prompt
+    #- touch Empty.py
+    #- nuitka --show-scons --run Empty.py
 
 about:
   home: https://nuitka.net
@@ -74,7 +76,7 @@ about:
     where not every bug of standard Python is emulated, e.g. more complete
     error messages are given, but there is a full compatibility mode to
     disable even that.
-  doc_url: https://nuitka.net
+  doc_url: https://nuitka.net/doc/user-manual.html
   dev_url: https://github.com/Nuitka/Nuitka
 
 extra:
