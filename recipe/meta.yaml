@@ -11,6 +11,8 @@ source:
 
 build:
   number: 0
+  script_env:
+    - NUITKA_NO_INLINE_COPY=1
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   entry_points:
     - nuitka = nuitka.__main__:main
@@ -33,6 +35,7 @@ requirements:
     - appdirs
     - tqdm  # [py==27 or py>=34]
     - pyyaml  # [py==27 or py>=36]
+    - scons
 
 test:
   imports:
