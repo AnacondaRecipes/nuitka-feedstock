@@ -25,6 +25,7 @@ requirements:
     - pip
     - setuptools
     - wheel
+    - scons
   run:
     - python
     - libpython-static  # [not win]
