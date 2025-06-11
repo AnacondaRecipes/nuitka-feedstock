@@ -10,6 +10,7 @@ source:
   sha256: 8ad661b57dec9753ca93c59232bf40bc3288d79da46492cc574cfca640d81d13
 
 build:
+  skip: True  # [unix]
   number: 0
   script_env:
     - NUITKA_NO_INLINE_COPY=1
