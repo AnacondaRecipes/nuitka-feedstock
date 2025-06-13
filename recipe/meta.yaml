@@ -57,6 +57,7 @@ test:
   requires:
     - pip
     - {{ compiler('c') }}
+    - scons  # [win]
   commands:
     - pip check
     - nuitka --help
