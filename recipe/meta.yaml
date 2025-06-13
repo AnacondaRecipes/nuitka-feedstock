@@ -65,7 +65,7 @@ test:
     - touch Empty.py  # [unix]
     - python -c "open('Empty.py', 'w').close()"  # [win]
     # Disable ccache in the test compilation because of the frozen prompt
-    - nuitka --show-scons --run --verbose --disable-ccache --assume-yes-for-downloads Empty.py  # [win]
+    - nuitka --show-scons --run --verbose --disable-ccache --msvc=14.3 --assume-yes-for-downloads Empty.py  # [win]
     - nuitka --show-scons --run --verbose --disable-ccache Empty.py  # [unix]
 
 about:
