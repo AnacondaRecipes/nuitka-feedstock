@@ -10,10 +10,10 @@ source:
   sha256: 8ad661b57dec9753ca93c59232bf40bc3288d79da46492cc574cfca640d81d13
 
 build:
-  skip: True  # [unix]
   number: 0
   script_env:
     - NUITKA_NO_INLINE_COPY=1
+    - NUITKA_ASSUME_YES_FOR_DOWNLOADS=1
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   entry_points:
     - nuitka = nuitka.__main__:main
@@ -56,15 +56,17 @@ test:
     - nuitka.utils
   requires:
     - pip
-    - {{ compiler('c') }}  # [linux]
+    - {{ compiler('c') }}
   commands:
     - pip check
     - nuitka --help
     - nuitka-run --help
     - python -m nuitka --version
-    - touch Empty.py
+    - touch Empty.py  # [unix]
+    - python -c "open('Empty.py', 'w').close()"  # [win]
     # Disable ccache in the test compilation because of the frozen prompt
-    - nuitka --show-scons --run --verbose --disable-ccache Empty.py
+    - nuitka --show-scons --run --verbose --disable-ccache --mingw64 --assume-yes-for-downloads Empty.py  # [win]
+    - nuitka --show-scons --run --verbose --disable-ccache Empty.py  # [unix]
 
 about:
   home: https://nuitka.net
