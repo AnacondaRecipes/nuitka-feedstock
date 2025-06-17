@@ -37,6 +37,7 @@ requirements:
     - appdirs
     - tqdm  # [py==27 or py>=34]
     - pyyaml  # [py==27 or py>=36]
+    # https://github.com/Nuitka/Nuitka/issues/3500
     - scons 4.1.0.post1
 
 test:
