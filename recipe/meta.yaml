@@ -33,11 +33,20 @@ requirements:
     - orderedset >=2.0.3  # [py<37]
     - zstandard >=0.15  # [py>=35]
     - jinja2 >=2.10.2
-    # Optional but recommended
+     # Was addInlineCopy()
     - appdirs
-    - tqdm  # [py==27 or py>=34]
-    - pyyaml  # [py==27 or py>=36]
-    # https://github.com/Nuitka/Nuitka/issues/3500
+    - glob2
+    - markupsafe
+    - tqdm
+    - atomicwrites # [win]
+    - clcache # [win]
+    - colorama # [win]
+    - pefile # [win]
+    - pyyaml  # [py>=36]
+    - jinja2  # [py>=36]
+    # XXX pkg_resources is bundled with setuptools now (or something)
+    #- pkg_resources
+    #- bin  # ??
     - scons 4.1.0.post1
 
 test:
