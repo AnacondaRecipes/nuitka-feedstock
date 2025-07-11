@@ -46,7 +46,6 @@ requirements:
     - markupsafe
     - tqdm
     - atomicwrites # [win]
-    - clcache # [win]
     - colorama # [win]
     - pefile # [win]
     - pyyaml  # [py>=36]
