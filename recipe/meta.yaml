@@ -15,7 +15,6 @@ build:
   number: 0
   script_env:
     - NUITKA_NO_INLINE_COPY=1
-    - NUITKA_ASSUME_YES_FOR_DOWNLOADS=1
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   entry_points:
     - nuitka = nuitka.__main__:main
