@@ -1,0 +1,46 @@
+From f43a6f4acc6af023900e9caeb549553e52541bde Mon Sep 17 00:00:00 2001
+From: Steven <scrass@anaconda.com>
+Date: Fri, 11 Jul 2025 08:56:12 -0600
+Subject: [PATCH] Remove vendored zlib and zstd from setup.py
+
+This patch removes the vendored copies of zlib and zstd libraries from
+the Nuitka package data, allowing the package to rely on system-provided
+versions of these libraries instead.
+
+The following vendored library references have been removed:
+- inline_copy/zstd/LICENSE.txt
+- inline_copy/zstd/*.h
+- inline_copy/zstd/*/*.h
+- inline_copy/zstd/*/*.c
+- inline_copy/zlib/LICENSE
+- inline_copy/zlib/*.h
+- inline_copy/zlib/*.c
+
+This change reduces the package size and ensures compatibility with
+system-provided versions of these libraries.
+---
+ setup.py | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+diff --git a/setup.py b/setup.py
+index 1c4439648..6c25237e6 100644
+--- a/setup.py
++++ b/setup.py
+@@ -155,13 +155,7 @@ package_data = {
+         "static_src/*.cpp",
+         "static_src/*/*.c",
+         "static_src/*/*.h",
+-        "inline_copy/zstd/LICENSE.txt",
+-        "inline_copy/zstd/*.h",
+-        "inline_copy/zstd/*/*.h",
+-        "inline_copy/zstd/*/*.c",
+-        "inline_copy/zlib/LICENSE",
+-        "inline_copy/zlib/*.h",
+-        "inline_copy/zlib/*.c",
++
+         "inline_copy/python_hacl/LICENSE.txt",
+         "inline_copy/python_hacl/hacl_312/*.h",
+         "inline_copy/python_hacl/hacl_312/*.c",
+-- 
+2.39.5 (Apple Git-154)
+
