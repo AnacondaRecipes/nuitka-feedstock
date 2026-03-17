@@ -1,13 +1,13 @@
 {% set name = "Nuitka" %}
-{% set version = "2.7.13" %}
+{% set version = "4.0.5" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 941c6ee2321fea1d297b29669228939200640110be2a8b0bdedfcf6c3bc816b9
+  url: https://pypi.org/packages/source/N/Nuitka/nuitka-4.0.5.tar.gz
+  sha256: 45e7d90266e76fe64eeb8d196c17666d7cd7cffbf68d6a24f233c3c03b6feaa8
   patches:
     - patches/0001-Remove-vendored-zlib-and-zstd-from-setup.py.patch
 
@@ -39,14 +39,14 @@ requirements:
     - orderedset >=2.0.3  # [py<37]
     - zstandard >=0.15  # [py>=37]
     - jinja2
-     # Was addInlineCopy()
+    # Was addInlineCopy()
     - appdirs
     - glob2
     - markupsafe
     - tqdm
-    - atomicwrites # [win]
-    - colorama # [win]
-    - pefile # [win]
+    - atomicwrites  # [win]
+    - colorama  # [win]
+    - pefile  # [win]
     - pyyaml  # [py>=36]
     # Upper bound added.
     # Old SCons API (what Nuitka expects)
