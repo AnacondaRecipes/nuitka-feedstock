@@ -1,13 +1,13 @@
 {% set name = "Nuitka" %}
-{% set version = "2.7.13" %}
+{% set version = "4.0.5" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 941c6ee2321fea1d297b29669228939200640110be2a8b0bdedfcf6c3bc816b9
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name|lower }}-{{ version }}.tar.gz
+  sha256: 45e7d90266e76fe64eeb8d196c17666d7cd7cffbf68d6a24f233c3c03b6feaa8
   patches:
     - patches/0001-Remove-vendored-zlib-and-zstd-from-setup.py.patch
 
@@ -21,24 +21,24 @@ build:
     - nuitka-run = nuitka.__main__:main
 
 requirements:
-  build:
-    - patch  # [unix]
-    - msys2-patch  # [win]
   host:
     - python
     - pip
     - setuptools >=42
     - wheel
-    - scons 4.1.0.post1
+    - scons 4.10.1
     - zlib {{ zlib }}
     - zstd {{ zstd }}
   run:
     - python
+    # https://github.com/Nuitka/Nuitka/blob/4.0.5/nuitka/tools/watch/Conda.py#L51
     - libpython-static  # [not win]
+    # https://github.com/Nuitka/Nuitka/blob/4.0.5/nuitka/tools/watch/Common.py#L19
     - ordered-set >=4.1.0  # [py>=37]
-    - orderedset >=2.0.3  # [py<37]
+    # https://github.com/Nuitka/Nuitka/blob/4.0.5/nuitka/tools/watch/Common.py#L31
+    - orderedset >=2.0.3  # [py<37 and osx]
     - zstandard >=0.15  # [py>=37]
-    - jinja2
+    - jinja2  # [py>=36]
      # Was addInlineCopy()
     - appdirs
     - glob2
@@ -48,12 +48,7 @@ requirements:
     - colorama # [win]
     - pefile # [win]
     - pyyaml  # [py>=36]
-    # Upper bound added.
-    # Old SCons API (what Nuitka expects)
-    # SCons.dblite.dblite.sync = no_sync
-    # New SCons API (what might be available)
-    # SCons.dblite.sync = no_sync
-    - scons >=4.1.0.post1,<4.6
+    - scons 4.10.1
     - zlib
     - zstd
 
