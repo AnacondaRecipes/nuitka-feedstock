@@ -34,17 +34,14 @@ requirements:
     - scons 4.10.1
     - zlib {{ zlib }}
     - zstd {{ zstd }}
-    - nuitka
   run:
     - python
-    # https://github.com/Nuitka/Nuitka/blob/4.0.5/nuitka/tools/watch/Conda.py#L51
+    # https://github.com/Nuitka/Nuitka/blob/4.3/nuitka/tools/watch/Conda.py#L51
     - libpython-static  # [not win]
-    # https://github.com/Nuitka/Nuitka/blob/4.0.5/nuitka/tools/watch/Common.py#L19
-    - ordered-set >=4.1.0  # [py>=37]
-    # https://github.com/Nuitka/Nuitka/blob/4.0.5/nuitka/tools/watch/Common.py#L31
-    - orderedset >=2.0.3  # [py<37 and osx]
-    - zstandard >=0.15  # [py>=37]
-    - jinja2  # [py>=36]
+    # https://github.com/Nuitka/Nuitka/blob/4.3/nuitka/containers/OrderedSets.py#L10-L22
+    - ordered-set >=4.1.0
+    - zstandard >=0.15
+    - jinja2
     # Was addInlineCopy()
     - appdirs
     - glob2
@@ -53,12 +50,10 @@ requirements:
     - atomicwrites  # [win]
     - colorama  # [win]
     - pefile  # [win]
-    - pyyaml  # [py>=36]
+    - pyyaml
     - scons 4.10.1
     - zlib
     - zstd
-  run_constrained:
-    - setuptools >=42
 
 test:
   imports:
@@ -91,9 +86,11 @@ test:
 
 about:
   home: https://nuitka.net
-  license: Apache-2.0
-  license_family: Apache
-  license_file: LICENSE.txt
+  license: AGPL-3.0-or-later
+  license_family: AGPL
+  license_file:
+    - LICENSE.txt
+    - LICENSE-RUNTIME.txt
   summary: Python compiler with full language support and CPython compatibility
   description: |
     Nuitka is the Python compiler. It is a seamless replacement or extension
