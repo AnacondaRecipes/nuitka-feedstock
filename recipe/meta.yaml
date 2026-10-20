@@ -1,5 +1,5 @@
 {% set name = "Nuitka" %}
-{% set version = "4.0.5" %}
+{% set version = "4.3" %}
 
 package:
   name: {{ name|lower }}
@@ -7,12 +7,12 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name|lower }}-{{ version }}.tar.gz
-  sha256: 45e7d90266e76fe64eeb8d196c17666d7cd7cffbf68d6a24f233c3c03b6feaa8
+  sha256: 8b102c6bf30d9504e82e69674d396972729092b25cefa680e8fd05678fdfa30b
   patches:
     - patches/0001-Remove-vendored-zlib-and-zstd-from-setup.py.patch
     # This install_name_tool modifies the binary and outputs a warning about the replaced signature.
     # Nuitka's post-link step catches any stderr output from install_name_tool as a fatal error, even a benign warning.
-    # On macOS arm64, binaries are ad-hoc signed. install_name_tool invalidates and re-signs automatically, printing that warning to stderr. 
+    # On macOS arm64, binaries are ad-hoc signed. install_name_tool invalidates and re-signs automatically, printing that warning to stderr.
     # Nuitka treats any stderr output from install_name_tool as failure — this is a known osx arm64 bug/limitation.
     - patches/0002-fix-osx-arm64-ignore-benign-install_name_tool-codesi.patch  # [osx and arm64]
 
@@ -36,23 +36,21 @@ requirements:
     - zstd {{ zstd }}
   run:
     - python
-    # https://github.com/Nuitka/Nuitka/blob/4.0.5/nuitka/tools/watch/Conda.py#L51
+    # https://github.com/Nuitka/Nuitka/blob/4.3/nuitka/tools/watch/Conda.py#L51
     - libpython-static  # [not win]
-    # https://github.com/Nuitka/Nuitka/blob/4.0.5/nuitka/tools/watch/Common.py#L19
-    - ordered-set >=4.1.0  # [py>=37]
-    # https://github.com/Nuitka/Nuitka/blob/4.0.5/nuitka/tools/watch/Common.py#L31
-    - orderedset >=2.0.3  # [py<37 and osx]
-    - zstandard >=0.15  # [py>=37]
-    - jinja2  # [py>=36]
-     # Was addInlineCopy()
+    # https://github.com/Nuitka/Nuitka/blob/4.3/nuitka/containers/OrderedSets.py#L10-L22
+    - ordered-set >=4.1.0
+    - zstandard >=0.15
+    - jinja2
+    # Was addInlineCopy()
     - appdirs
     - glob2
     - markupsafe
     - tqdm
-    - atomicwrites # [win]
-    - colorama # [win]
-    - pefile # [win]
-    - pyyaml  # [py>=36]
+    - atomicwrites  # [win]
+    - colorama  # [win]
+    - pefile  # [win]
+    - pyyaml
     - scons 4.10.1
     - zlib
     - zstd
@@ -88,9 +86,11 @@ test:
 
 about:
   home: https://nuitka.net
-  license: Apache-2.0
-  license_family: Apache
-  license_file: LICENSE.txt
+  license: AGPL-3.0-or-later
+  license_family: AGPL
+  license_file:
+    - LICENSE.txt
+    - LICENSE-RUNTIME.txt
   summary: Python compiler with full language support and CPython compatibility
   description: |
     Nuitka is the Python compiler. It is a seamless replacement or extension
