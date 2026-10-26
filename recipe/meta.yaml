@@ -34,7 +34,6 @@ requirements:
     - scons 4.10.1
     - zlib {{ zlib }}
     - zstd {{ zstd }}
-    - nuitka
   run:
     - python
     # https://github.com/Nuitka/Nuitka/blob/4.0.5/nuitka/tools/watch/Conda.py#L51
