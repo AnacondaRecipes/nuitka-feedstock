@@ -1,5 +1,5 @@
 {% set name = "Nuitka" %}
-{% set version = "4.3.1" %}
+{% set version = "4.3.4" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name|lower }}-{{ version }}.tar.gz
-  sha256: b9c87a694acc424cfffa06abf149fddbdfa85f6daac998df67411b5f4269df0f
+  sha256: e98e0c9a3224b581cf8ec0fab92b039b90fb7fa78673550c22833a82de444b25
   patches:
     - patches/0001-Remove-vendored-zlib-and-zstd-from-setup.py.patch
     # This install_name_tool modifies the binary and outputs a warning about the replaced signature.
@@ -34,6 +34,7 @@ requirements:
     - scons 4.10.1
     - zlib {{ zlib }}
     - zstd {{ zstd }}
+    - nuitka
   run:
     - python
     # https://github.com/Nuitka/Nuitka/blob/4.3/nuitka/tools/watch/Conda.py#L51
@@ -54,6 +55,9 @@ requirements:
     - scons 4.10.1
     - zlib
     - zstd
+  run_constrained:
+    - zstandard >=0.15
+    - setuptools >=42
 
 test:
   imports:
